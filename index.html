@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>脈ありチェッカー💘 あの人の本音、診断します</title>
+<meta name="description" content="12の質問に答えるだけ！気になるあの人の「脈あり度」を%で判定するよ。">
+<!-- ▼ 公開後、URLを自分のものに書き換えてね（og:imageは絶対URLが必要） -->
+<meta property="og:title" content="脈ありチェッカー💘 あの人の本音、診断します">
+<meta property="og:description" content="12の質問で気になるあの人の脈あり度を判定！">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.github.io/myakuari/">
+<meta property="og:image" content="https://example.github.io/myakuari/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💘</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff5fa2; --pink-l:#ffe3ef; --yellow:#ffe066; --mint:#7ee8c6;
+  --sky:#8fd3ff; --ink:#3a2340; --bg:#fff6fa; --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:"M PLUS Rounded 1c",system-ui,sans-serif;color:var(--ink);
+  background:var(--bg);
+  background-image:radial-gradient(var(--pink-l) 2px,transparent 2px);
+  background-size:22px 22px;
+  display:flex;justify-content:center;padding:24px 16px 48px;overflow-x:hidden;
+}
+.wrap{width:100%;max-width:440px;position:relative;z-index:1}
+.card{
+  background:var(--white);border:3px solid var(--ink);border-radius:24px;
+  box-shadow:6px 6px 0 var(--ink);padding:28px 22px;
+}
+.screen{display:none;animation:pop .35s cubic-bezier(.3,1.6,.6,1)}
+.screen.on{display:block}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* start */
+.badge{display:inline-block;background:var(--yellow);border:2px solid var(--ink);
+  border-radius:99px;padding:4px 12px;font-size:13px;font-weight:800;transform:rotate(-3deg)}
+h1{font-size:34px;line-height:1.2;font-weight:800;margin:14px 0 8px;letter-spacing:.02em}
+h1 span{color:var(--pink);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
+.lead{font-size:15px;line-height:1.7;margin-bottom:20px}
+.hero{font-size:64px;text-align:center;margin:6px 0 14px;animation:beat 1.2s infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+label{font-size:13px;font-weight:800;display:block;margin-bottom:6px}
+input{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:2px solid var(--ink);
+  border-radius:14px;margin-bottom:18px;background:var(--pink-l)}
+input:focus{outline:3px solid var(--yellow)}
+.btn{
+  display:block;width:100%;font:inherit;font-weight:800;font-size:18px;cursor:pointer;
+  background:var(--pink);color:#fff;border:3px solid var(--ink);border-radius:16px;
+  padding:14px;box-shadow:4px 4px 0 var(--ink);transition:transform .08s,box-shadow .08s;
+}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn.sub{background:var(--white);color:var(--ink);font-size:15px;margin-top:12px}
+.btn.x{background:#111;margin-top:18px}
+.note{font-size:11px;opacity:.6;text-align:center;margin-top:14px}
+
+/* quiz */
+.bar{height:14px;border:2px solid var(--ink);border-radius:99px;background:var(--white);overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,var(--pink),var(--pink) 8px,#ff85b8 8px,#ff85b8 16px);transition:width .3s}
+.qtop{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800;margin-bottom:18px}
+.back{background:none;border:none;font:inherit;font-weight:800;font-size:13px;color:var(--ink);cursor:pointer;opacity:.6}
+.back:disabled{visibility:hidden}
+.qemoji{font-size:52px;text-align:center}
+.qtext{font-size:20px;font-weight:800;text-align:center;line-height:1.5;margin:10px 0 20px;min-height:60px}
+.ans{display:grid;gap:10px}
+.ans button{
+  font:inherit;font-size:15px;font-weight:500;text-align:left;cursor:pointer;
+  background:var(--white);border:2px solid var(--ink);border-radius:14px;padding:13px 14px;
+  box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s,background .1s;
+}
+.ans button:nth-child(1):hover{background:#ffe3ef}
+.ans button:nth-child(2):hover{background:#fff4c2}
+.ans button:nth-child(3):hover{background:#d9f8ee}
+.ans button:nth-child(4):hover{background:#dff1ff}
+.ans button.skip{border-style:dashed;box-shadow:none;font-size:13px;opacity:.75;text-align:center}
+.ans button.skip:hover{background:#f3eef5;opacity:1}
+.box.maybe{background:#fff4c2;display:none}
+.ans button:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+
+/* result */
+.rlabel{text-align:center;font-weight:800;font-size:14px}
+.meter{position:relative;width:200px;height:200px;margin:12px auto 6px}
+.meter svg{width:100%;height:100%;transform:rotate(-90deg)}
+.meter .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.meter b{font-size:56px;line-height:1;font-weight:800}
+.meter b small{font-size:24px}
+.rtitle{
+  text-align:center;font-size:26px;font-weight:800;margin:10px auto 4px;
+  background:var(--yellow);border:3px solid var(--ink);border-radius:14px;
+  padding:6px 14px;width:fit-content;transform:rotate(-2deg);
+}
+.rcomment{font-size:15px;line-height:1.75;margin:18px 0 14px}
+.box{border:2px dashed var(--ink);border-radius:14px;padding:12px 14px;margin-top:12px;font-size:14px;line-height:1.7}
+.box h3{font-size:14px;margin-bottom:4px}
+.box.hot{background:var(--pink-l)}
+.box.adv{background:#effbf6}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tags span{background:#fff;border:2px solid var(--ink);border-radius:99px;padding:2px 10px;font-size:13px;font-weight:800}
+
+/* 画面の高さが低い端末向けに自動で詰める */
+@media (max-height:760px){
+  body{padding:14px 12px 24px}
+  .card{padding:20px 18px}
+  h1{font-size:28px;margin:10px 0 6px}
+  .hero{font-size:46px;margin:0 0 8px}
+  .lead{font-size:14px;line-height:1.6;margin-bottom:14px}
+  input{padding:10px 12px;margin-bottom:12px}
+  .btn{padding:12px}
+  .note{margin-top:10px}
+  .qtop{margin-bottom:10px}
+  .qemoji{font-size:40px}
+  .qtext{font-size:18px;margin:6px 0 14px;min-height:0}
+  .ans{gap:8px}
+  .ans button{padding:10px 12px;font-size:14px}
+  .ans button.skip{font-size:12px}
+  .meter{width:160px;height:160px}
+  .meter b{font-size:46px}
+}
+@media (max-height:620px){
+  .badge{font-size:12px}
+  h1{font-size:24px}
+  .hero{font-size:34px;margin:0 0 4px}
+  .lead{font-size:13px}
+  .qemoji{font-size:30px}
+  .qtext{font-size:16px;margin:4px 0 10px}
+  .ans{gap:7px}
+  .ans button{padding:8px 12px}
+}
+
+/* floating hearts */
+.float{position:fixed;font-size:22px;pointer-events:none;z-index:0;opacity:.5;animation:up linear infinite}
+@keyframes up{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-20vh) rotate(360deg)}}
+.confetti{position:fixed;top:-40px;font-size:24px;pointer-events:none;z-index:5;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(115vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- START -->
+  <section id="start" class="screen on card">
+    <span class="badge">💌 12問・約1分</span>
+    <h1>あの人、<br><span>脈あり？</span>なし？</h1>
+    <div class="hero">💘</div>
+    <p class="lead">気になるあの人の「普段の様子」や「あなたへの接し方」を思い出して答えてね。脈あり度を%で判定しちゃうよ！</p>
+    <label for="name">あの人のあだ名・イニシャル（任意）</label>
+    <input id="name" maxlength="12" placeholder="例：Kくん、バイト先の先輩">
+    <button class="btn" id="go">診断スタート ▶</button>
+    <p class="note">※結果はエンタメです。最後に信じるのは自分の気持ち！</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="screen card">
+    <div class="bar"><i id="prog"></i></div>
+    <div class="qtop">
+      <button class="back" id="back">◀ もどる</button>
+      <span id="count">Q1 / 12</span>
+    </div>
+    <div class="qemoji" id="qe">📱</div>
+    <p class="qtext" id="qt"></p>
+    <div class="ans" id="ans"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="screen card">
+    <p class="rlabel" id="rwho">あの人の脈あり度は…</p>
+    <div class="meter">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#ffe3ef" stroke-width="14"/>
+        <circle id="ring" cx="60" cy="60" r="50" fill="none" stroke="#ff5fa2" stroke-width="14"
+          stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+      </svg>
+      <div class="num"><b><span id="pct">0</span><small>%</small></b></div>
+    </div>
+    <p class="rtitle" id="rt"></p>
+    <p class="rcomment" id="rc"></p>
+    <div class="box hot" id="hotbox"><h3>🔥 ここがアツい！</h3><div class="tags" id="hot"></div></div>
+    <div class="box maybe" id="maybebox"><h3>👀 ちなみに…</h3><p>「好きな人いる」発言、それ…<b>あなたのことかも？</b> 相手がわざわざあなたに言った意味、ちょっと考えてみて。</p></div>
+    <div class="box adv"><h3>💡 次の一手</h3><p id="adv"></p></div>
+    <button class="btn x" id="share">𝕏 で結果をポストする</button>
+    <button class="btn sub" id="retry">もう一回診断する</button>
+    <p class="note">※結果はエンタメです。最後に信じるのは自分の気持ち！</p>
+  </section>
+
+</div>
+
+<script>
+// ===== 質問データ =====
+// a: [選択肢, 点数(0〜3)]  点数を null にすると「該当なし」として計算から除外
+// w: 重み（強い脈ありサインは1.5）  tag: 3点の時「ここがアツい！」に表示
+// a の3つ目に "maybe" を付けると結果画面に「それあなたかも？」を表示
+const Q = [
+  {e:"📱", q:"LINE・DMの返信スピードは？", tag:"返信が爆速", a:[
+    ["ほぼ即レス！",3],["数時間以内には来る",2],["1日くらい空くことも",1],["既読スルーされがち…",0],["まだ連絡先を知らない",null]]},
+  {e:"💬", q:"やりとりを始めるのは、どっちが多い？", tag:"相手から連絡くる", a:[
+    ["相手からが多い",3],["半々くらい",2],["ほぼ自分から",1],["自分から送っても続かない",0],["まだやりとりしたことない",null]]},
+  {e:"👀", q:"ふと目が合ったとき、あの人は？", tag:"目が合うと笑顔", a:[
+    ["ニコッと笑う・話しかけてくる",3],["パッとそらす（照れてる？）",2],["特に反応なし",1],["そもそも目が合わない",0]]},
+  {e:"❓", q:"会話中、あなたについて質問してくる？", tag:"あなたに興味津々", a:[
+    ["めっちゃ聞いてくる",3],["たまに聞いてくる",2],["相手の話がメイン",1],["会話自体が少ない",0]]},
+  {e:"🧠", q:"前に話したことを覚えてる？", tag:"話をよく覚えてる", a:[
+    ["細かいことまで覚えてる！",3],["大事なことは覚えてる",2],["わりと忘れてる",1],["全然覚えてない",0]]},
+  {e:"🎡", q:"2人で出かけることについては？", tag:"2人で会おうと誘われた", w:1.5, a:[
+    ["相手から誘われた",3],["誘ったらOKしてくれた",2],["誘ったら濁された",1],["断られた",0],["まだ誘ったことない",null]]},
+  {e:"💕", q:"恋愛の話をしたとき、どんな感じだった？", tag:"恋人の有無を確認された", w:1.5, a:[
+    ["「恋人いるの？」って聞かれた",3],["お互いの好きなタイプを話した",2],["好きな人がいるって言ってた",1,"maybe"],["他の異性の話を普通にしてくる",0],["恋愛の話はまだしたことない",null]]},
+  {e:"🤝", q:"一緒にいるときの距離感は？", tag:"物理的に近い", a:[
+    ["近い！肩が触れるくらい",3],["ふつうの距離",2],["ちょっと遠いかも",1],["避けられてる気がする",0]]},
+  {e:"⭐", q:"他の人への接し方と比べると？", tag:"あなただけ特別扱い", w:1.5, a:[
+    ["自分にだけ明らかに違う",3],["ちょっと優しい気がする",2],["みんなと同じ",1],["自分にだけそっけない",0]]},
+  {e:"🆘", q:"あなたが困ってるとき、あの人は？", tag:"ピンチに駆けつける", a:[
+    ["すぐ気づいて助けてくれる",3],["頼めば助けてくれる",2],["気づいてない感じ",1],["スルーされる",0]]},
+  {e:"📸", q:"SNSでの反応は？", tag:"SNSチェックが早い", a:[
+    ["ストーリーすぐ見る・反応くれる",3],["いいねはくれる",2],["たまーに見てる",1],["反応ゼロ",0],["SNSではつながってない",null]]},
+  {e:"😆", q:"あなたといるとき、あの人の表情は？", tag:"一緒だと楽しそう", a:[
+    ["めっちゃ楽しそう！よく笑う",3],["リラックスしてる感じ",2],["いつも通り",1],["なんだか退屈そう",0]]},
+];
+
+// ===== 判定（上から順にチェック） =====
+const R = [
+  {min:90, emoji:"🔥", title:"もはや両想い", color:"#ff3d7f",
+   c:"これはもう脈ありどころの話じゃない…！あの人、かなりの確率であなたのことを特別に見てます。周りから見てもバレてるレベルかも？",
+   a:"待ってるだけだともったいない！そろそろ気持ちを伝える準備を。2人きりのタイミングを作ってみて。"},
+  {min:75, emoji:"💘", title:"脈ありゾーン", color:"#ff5fa2",
+   c:"好意のサインがたくさん出てます！あなたへの接し方が「その他大勢」とは明らかに違うみたい。",
+   a:"相手もあなたの出方を待ってるかも。ご飯やお出かけに誘って、2人の時間を増やそう！"},
+  {min:55, emoji:"✨", title:"ワンチャンあり", color:"#ffb020",
+   c:"好印象なのは間違いなし！ただ、恋愛として意識してるかはまだ五分五分。ここからの動き次第で大きく変わります。",
+   a:"「いい人」止まりにならないよう、少しだけ恋愛っぽい話題を混ぜてみるのがおすすめ。"},
+  {min:35, emoji:"🌀", title:"様子見ゾーン", color:"#45c7a0",
+   c:"嫌われてはいないけど、恋愛対象として見られているかはまだ謎。相手があなたのことをよく知らないだけかも？",
+   a:"まずは会話の回数を増やそう。相手の好きなものを話題にすると距離が縮まりやすいよ。"},
+  {min:15, emoji:"📁", title:"友達フォルダ", color:"#4aa8e8",
+   c:"今のところは「友達・知り合い」枠に入ってそう。でも、フォルダの移動はいつでも可能です！",
+   a:"いつもと違う一面を見せるのが効果的。見た目の変化や、真剣な相談でギャップを作ってみて。"},
+  {min:0, emoji:"📡", title:"圏外…？", color:"#9a8aa8",
+   c:"電波が…届いてない…！今は相手の意識があなたに向いていないみたい。でもここから逆転した例は無数にあります。",
+   a:"焦らず、まずは自分の毎日を楽しむのが一番の近道。余裕のある人は魅力的に見えるよ。"},
+];
+
+// ===== ロジック =====
+const $ = id => document.getElementById(id);
+let idx = 0, picks = [], flags = [], who = "";
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("on"));
+  $(id).classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderQ(){
+  const q = Q[idx];
+  $("prog").style.width = (idx / Q.length * 100) + "%";
+  $("count").textContent = `Q${idx+1} / ${Q.length}`;
+  $("back").disabled = idx === 0;
+  $("qe").textContent = q.e;
+  $("qt").textContent = q.q;
+  const box = $("ans"); box.innerHTML = "";
+  q.a.forEach(([t,p,flag]) => {
+    const b = document.createElement("button");
+    b.textContent = t;
+    if (p === null) b.className = "skip";
+    b.onclick = () => { picks[idx] = p; flags[idx] = flag; idx++; idx < Q.length ? replay() : finish(); };
+    box.appendChild(b);
+  });
+}
+function replay(){ // 質問切り替え時のポップアニメ
+  const s = $("quiz"); s.style.animation = "none"; s.offsetHeight; s.style.animation = ""; renderQ();
+}
+
+function finish(){
+  // 「該当なし(null)」は除外し、重み付きで計算
+  let got = 0, max = 0;
+  Q.forEach((q,i) => {
+    if (picks[i] === null) return;
+    const w = q.w || 1;
+    got += picks[i] * w; max += 3 * w;
+  });
+  let pct = max ? Math.round(got / max * 100) : 50;
+  pct = Math.max(1, pct);
+  const r = R.find(x => pct >= x.min);
+
+  $("rwho").textContent = (who ? `${who}の` : "あの人の") + "脈あり度は…";
+  $("rt").textContent = `${r.emoji} ${r.title}`;
+  $("rc").textContent = r.c;
+  $("adv").textContent = r.a;
+  $("ring").style.stroke = r.color;
+
+  const hot = Q.filter((q,i) => picks[i] === 3).map(q => q.tag).slice(0,5);
+  $("hotbox").style.display = hot.length ? "block" : "none";
+  $("hot").innerHTML = "";
+  hot.forEach(t => { const s=document.createElement("span"); s.textContent=t; $("hot").appendChild(s); });
+
+  $("maybebox").style.display = flags.includes("maybe") ? "block" : "none";
+
+  show("result");
+  animate(pct);
+  if (pct >= 75) confetti();
+
+  $("share").onclick = () => {
+    const text = `${who ? who+"の" : "あの人の"}脈あり度は【${pct}%】でした…！\n判定：${r.emoji}${r.title}\n\n#脈ありチェッカー`;
+    const url = location.href.split("#")[0].split("?")[0];
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, "_blank");
+  };
+}
+
+function animate(target){
+  const ring = $("ring"), C = 314.16, dur = 1400, t0 = performance.now();
+  (function step(now){
+    const k = Math.min(1,(now-t0)/dur), e = 1 - Math.pow(1-k,3);
+    const v = Math.round(target*e);
+    $("pct").textContent = v;
+    ring.style.strokeDashoffset = C - C*v/100;
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
+function confetti(){
+  const items = ["💘","💖","✨","💕","🎉","💗"];
+  for (let i=0;i<36;i++){
+    const d = document.createElement("div");
+    d.className = "confetti";
+    d.textContent = items[i % items.length];
+    d.style.left = Math.random()*100 + "vw";
+    d.style.animationDuration = (2 + Math.random()*2) + "s";
+    d.style.animationDelay = (Math.random()*0.8) + "s";
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 5000);
+  }
+}
+
+// 背景のふわふわハート
+for (let i=0;i<10;i++){
+  const h = document.createElement("div");
+  h.className = "float";
+  h.textContent = ["💗","💕","♡","✨"][i%4];
+  h.style.left = (i*10 + Math.random()*8) + "vw";
+  h.style.animationDuration = (12 + Math.random()*10) + "s";
+  h.style.animationDelay = (-Math.random()*20) + "s";
+  document.body.appendChild(h);
+}
+
+$("go").onclick = () => { who = $("name").value.trim(); idx = 0; picks = []; flags = []; show("quiz"); renderQ(); };
+$("back").onclick = () => { if (idx > 0){ idx--; renderQ(); } };
+$("retry").onclick = () => show("start");
+</script>
+</body>
+</html>
